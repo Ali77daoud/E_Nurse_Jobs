@@ -4,6 +4,8 @@ import 'package:e_nurse_jobs/view/screens/home_page_screens/nurse_pages/add_nurs
 import 'package:e_nurse_jobs/view/screens/home_page_screens/nurse_pages/details_nurse.dart';
 import 'package:e_nurse_jobs/view/screens/home_page_screens/nurse_pages/edit_nurse.dart';
 import 'package:e_nurse_jobs/view/screens/home_page_screens/nurse_pages/nurse_page.dart';
+import 'package:e_nurse_jobs/view/screens/home_page_screens/patient_pages/details_patient.dart';
+import 'package:e_nurse_jobs/view/screens/home_page_screens/patient_pages/patient_page.dart';
 import 'package:get/route_manager.dart';
 
 import '../view/screens/auth_screens/login_screen.dart';
@@ -18,6 +20,8 @@ class Routes {
   static const addNursePage = '/addNursePage';
   static const editNursePage = '/editNursePage';
   static const detailsNursePage = '/detailsNursePage';
+  static const patientPage = '/patientPage';
+  static const detailsPatientPage = '/detailsPatientPage';
 }
 
 class AppRoutes {
@@ -77,5 +81,21 @@ class AppRoutes {
       transition: Transition.fade,
       transitionDuration: const Duration(milliseconds: 400),
     ),
+    ////////////////////////patient patient//////////////////////////////////////////
+    // ////////
+    GetPage(
+      name: Routes.patientPage,
+      page: () => PatientPage(),
+      transition: Transition.fade,
+      transitionDuration: const Duration(milliseconds: 400),
+    ),
+    // ////////
+    GetPage(
+      name: Routes.detailsPatientPage,
+      page: () => DetailsPatientPage(),
+      transition: Transition.fade,
+      transitionDuration: const Duration(milliseconds: 400),
+    ),
+    ////
   ];
 }

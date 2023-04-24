@@ -1,4 +1,3 @@
-import 'package:e_nurse_jobs/logic/controllers/nurse_controller.dart';
 import 'package:e_nurse_jobs/routes/routes.dart';
 import 'package:e_nurse_jobs/utils.dart/app_colors.dart';
 import 'package:e_nurse_jobs/utils.dart/const_and_func.dart';
@@ -8,23 +7,24 @@ import 'package:e_nurse_jobs/view/widget/safe_area_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../../logic/controllers/patient_controller.dart';
 import '../../../widget/text_widget.dart';
 
-class NursePage extends StatelessWidget {
-  NursePage({super.key});
-  final NurseController nurseController = Get.find<NurseController>();
+class PatientPage extends StatelessWidget {
+  PatientPage({super.key});
+  final PatientController patientController = Get.find<PatientController>();
 
   @override
   Widget build(BuildContext context) {
     return SafeAreaWidget(child: Scaffold(
-      body: GetBuilder<NurseController>(builder: (_) {
-        return nurseController.isCircleShown
+      body: GetBuilder<PatientController>(builder: (_) {
+        return patientController.isCircleShown
             ? const CircleIndicatorWidget(
                 isWhite: true,
               )
-            : nurseController.isNoInternetConnection
+            : patientController.isNoInternetConnection
                 ? NoConnectionWidget(onTap: () async {
-                    await nurseController.getNurseData(token: token);
+                    await patientController.getPatientData(token: token);
                   })
                 : Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -53,12 +53,12 @@ class NursePage extends StatelessWidget {
 
   Widget buildHeader() {
     return Container(
-      width: 200,
-      height: 200,
+      width: 150,
+      height: 150,
       decoration: const BoxDecoration(
           image: DecorationImage(
               image: AssetImage(
-                'assets/images/nurse.png',
+                'assets/images/patient.png',
               ),
               fit: BoxFit.contain)),
     );
@@ -67,11 +67,13 @@ class NursePage extends StatelessWidget {
   Widget buildAddButton(BuildContext context) {
     return InkWell(
       onTap: () {
-        Get.toNamed(Routes.addNursePage,);
+        Get.toNamed(
+          Routes.addNursePage,
+        );
       },
       child: Container(
         color: AppColors.primaryDark,
-        width: getWidthInPercent(context, 40),
+        width: getWidthInPercent(context, 30),
         height: 40,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -79,7 +81,7 @@ class NursePage extends StatelessWidget {
             TextWidget(
                 text: 'Add',
                 color: AppColors.white,
-                fontSize: 15,
+                fontSize: 13,
                 fontWeight: FontWeight.bold,
                 textAlign: TextAlign.start,
                 maxline: 2),
@@ -98,7 +100,7 @@ class NursePage extends StatelessWidget {
   Widget buildBody() {
     return Expanded(
       child: ListView.builder(
-        itemCount: nurseController.nurseData!.obj.length,
+        itemCount: patientController.patientData!.obj.length,
         itemBuilder: (context, index) {
           return Padding(
             padding: const EdgeInsets.symmetric(vertical: 7),
@@ -142,38 +144,22 @@ class NursePage extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           TextWidget(
-                              text: nurseController.nurseData!.obj[index].name,
+                              text: patientController
+                                  .patientData!.obj[index].name,
                               color: AppColors.primaryDark,
-                              fontSize: 13,
+                              fontSize: 14,
                               fontWeight: FontWeight.bold,
                               textAlign: TextAlign.start,
                               maxline: 2),
+
                           /////////////
                           TextWidget(
-                              text: nurseController.nurseData!.obj[index].phone,
+                              text: patientController
+                                      .patientData!.obj[index].isStoped
+                                  ? 'Stopped'
+                                  : 'Not Stopped',
                               color: AppColors.greyColor,
-                              fontSize: 12,
-                              fontWeight: FontWeight.normal,
-                              textAlign: TextAlign.start,
-                              maxline: 2),
-                          /////////////
-                          TextWidget(
-                              text: nurseController.nurseData!.obj[index].gender
-                                  ? 'Male'
-                                  : 'FeMale',
-                              color: AppColors.greyColor,
-                              fontSize: 12,
-                              fontWeight: FontWeight.normal,
-                              textAlign: TextAlign.start,
-                              maxline: 2),
-                          /////////////
-                          TextWidget(
-                              text: nurseController
-                                      .nurseData!.obj[index].isResigned
-                                  ? 'Resigned'
-                                  : 'Not Resigned',
-                              color: AppColors.greyColor,
-                              fontSize: 10,
+                              fontSize: 11,
                               fontWeight: FontWeight.normal,
                               textAlign: TextAlign.start,
                               maxline: 2),
@@ -181,6 +167,7 @@ class NursePage extends StatelessWidget {
                       ),
                     ),
                   ),
+
                   ////////////////////
                   Expanded(
                     flex: 1,
@@ -198,9 +185,9 @@ class NursePage extends StatelessWidget {
                             )),
                         IconButton(
                             onPressed: () {
-                              Get.toNamed(Routes.editNursePage, arguments: [
-                                nurseController.nurseData!.obj[index].id
-                              ]);
+                              // Get.toNamed(Routes.editNursePage, arguments: [
+                              //   nurseController.nurseData!.obj[index].id
+                              // ]);
                             },
                             icon: const Icon(
                               Icons.edit,
@@ -215,10 +202,10 @@ class NursePage extends StatelessWidget {
                     flex: 2,
                     child: InkWell(
                       onTap: () async {
-                        Get.toNamed(Routes.detailsNursePage);
-                        await nurseController.getDetailsNurseData(
+                        Get.toNamed(Routes.detailsPatientPage);
+                        await patientController.getDetailsPatientData(
                             token: token,
-                            id: nurseController.nurseData!.obj[index].id);
+                            id: patientController.patientData!.obj[index].id);
                       },
                       child: Container(
                         height: getHeightInPercent(context, 100),

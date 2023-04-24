@@ -2,8 +2,7 @@ import 'package:e_nurse_jobs/routes/routes.dart';
 import 'package:e_nurse_jobs/view/widget/auth_nav_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import '../../../../logic/controllers/nurse_controller.dart';
+import '../../../../logic/controllers/patient_controller.dart';
 import '../../../../utils.dart/app_colors.dart';
 import '../../../../utils.dart/const_and_func.dart';
 import '../../../widget/auth_text_field.dart';
@@ -11,16 +10,15 @@ import '../../../widget/button_widget.dart';
 import '../../../widget/circle_indecator_widget.dart';
 import '../../../widget/text_widget.dart';
 
-class EditNursePage extends StatelessWidget {
-  EditNursePage({super.key});
+class EditPatientPage extends StatelessWidget {
+  EditPatientPage({super.key});
   final formKey = GlobalKey<FormState>();
   final TextEditingController nameKey = TextEditingController();
-  final TextEditingController phoneKey = TextEditingController();
-  final NurseController nurseController = Get.find<NurseController>();
+  final PatientController patientContrpoller = Get.find<PatientController>();
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: GetBuilder<NurseController>(builder: (_) {
+    return Scaffold(body: GetBuilder<PatientController>(builder: (_) {
       return Stack(
         children: [
           Padding(
@@ -40,7 +38,7 @@ class EditNursePage extends StatelessWidget {
               )),
           //////////////////
           ///////////
-          nurseController.isCircleShown
+          patientContrpoller.isCircleShown
               ? const CircleIndicatorWidget()
               : Container()
         ],
@@ -69,58 +67,21 @@ class EditNursePage extends StatelessWidget {
                 prefixIcon: const Icon(Icons.person_outline)),
             ////////////////////////
             SizedBox(
-              height: getHeightInPercent(context, 2),
-            ),
-            ///////////////////////
-            AuthTextField(
-                textInputType: TextInputType.number,
-                isPrefix: true,
-                controller: phoneKey,
-                hintText: 'Enter Phone Number',
-                labelText: 'Phone Number',
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return 'Phone Number should not be empty';
-                  }
-                },
-                prefixIcon: const Icon(Icons.phone_enabled_outlined)),
-            ////////////////////////
-            SizedBox(
               height: getHeightInPercent(context, 3),
             ),
-            ///////////////////////
-            GetBuilder<NurseController>(builder: (_) {
-              return AuthNavButtonWidget(
-                  isColoredLogin: nurseController.isMale,
-                  isColoredSignup: !nurseController.isMale,
-                  text1: 'Male',
-                  text2: 'FeMale',
-                  width: getWidthInPercent(context, 100),
-                  onTapLogin: () {
-                    nurseController.changeIsMale(true);
-                  },
-                  onTapSignup: () {
-                    nurseController.changeIsMale(false);
-                  });
-            }),
 
-            ////////////////////////
-            SizedBox(
-              height: getHeightInPercent(context, 3),
-            ),
-            ///////////////////////
-            GetBuilder<NurseController>(builder: (_) {
+            GetBuilder<PatientController>(builder: (_) {
               return AuthNavButtonWidget(
-                  isColoredLogin: nurseController.isResigned,
-                  isColoredSignup: !nurseController.isResigned,
-                  text1: 'Resigned',
-                  text2: 'Not Resigned',
+                  isColoredLogin: patientContrpoller.isStopped,
+                  isColoredSignup: !patientContrpoller.isStopped,
+                  text1: 'Stopped',
+                  text2: 'Not Stopped',
                   width: getWidthInPercent(context, 100),
                   onTapLogin: () {
-                    nurseController.changeisResigned(true);
+                    patientContrpoller.changeisStopped(true);
                   },
                   onTapSignup: () {
-                    nurseController.changeisResigned(false);
+                    patientContrpoller.changeisStopped(false);
                   });
             }),
 
@@ -132,13 +93,13 @@ class EditNursePage extends StatelessWidget {
             ButtonWidget(
                 onTap: () async {
                   if (formKey.currentState!.validate()) {
-                    await nurseController.editNurseData(
-                        token: token,
-                        name: nameKey.text,
-                        phone: phoneKey.text,
-                        id: Get.arguments[0],
-                        gender: nurseController.isMale,
-                        isResigned: nurseController.isResigned);
+                    // await patientContrpoller.editNurseData(
+                    //     token: token,
+                    //     name: nameKey.text,
+                    //     phone: phoneKey.text,
+                    //     id: Get.arguments[0],
+                    //     gender: patientContrpoller.isMale,
+                    //     isResigned: patientContrpoller.isResigned);
                   }
                 },
                 text: TextWidget(

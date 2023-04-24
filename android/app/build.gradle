@@ -47,7 +47,7 @@ android {
         applicationId "com.example.e_nurse_jobs"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-build-configuration.
-        minSdkVersion flutter.minSdkVersion=21
+        minSdkVersion flutter.minSdkVersion=27
         targetSdkVersion flutter.targetSdkVersion =33
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
