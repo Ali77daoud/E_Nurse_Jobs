@@ -6,6 +6,7 @@ class TextWidget extends StatelessWidget {
   final String text;
   final Color color;
   final double fontSize;
+  final double minFontSize;
   final FontWeight fontWeight;
   final TextAlign textAlign;
   final int maxline;
@@ -20,15 +21,17 @@ class TextWidget extends StatelessWidget {
       required this.textAlign,
       required this.maxline,
       this.overflow = TextOverflow.clip,
-      this.textDecoration = TextDecoration.none})
+      this.textDecoration = TextDecoration.none,
+      this.minFontSize = 5})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return AutoSizeText(
+      minFontSize: minFontSize,
       text,
       style: TextStyle(
-        // overflow: overflow,
+        overflow: overflow,
         decoration: textDecoration,
         color: color,
         fontFamily: 'EuclidCircularARegular',

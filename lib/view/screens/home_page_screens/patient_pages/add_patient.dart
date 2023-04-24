@@ -9,10 +9,11 @@ import '../../../widget/button_widget.dart';
 import '../../../widget/circle_indecator_widget.dart';
 import '../../../widget/text_widget.dart';
 
-class EditPatientPage extends StatelessWidget {
-  EditPatientPage({super.key});
+class AddPatientPage extends StatelessWidget {
+  AddPatientPage({super.key});
   final formKey = GlobalKey<FormState>();
   final TextEditingController nameKey = TextEditingController();
+  final TextEditingController phoneKey = TextEditingController();
   final PatientController patientController = Get.find<PatientController>();
 
   @override
@@ -35,7 +36,6 @@ class EditPatientPage extends StatelessWidget {
                       buildBody(context)
                     ]),
               )),
-          //////////////////
           ///////////
           patientController.isCircleShown
               ? const CircleIndicatorWidget()
@@ -65,10 +65,11 @@ class EditPatientPage extends StatelessWidget {
                 },
                 prefixIcon: const Icon(Icons.person_outline)),
             ////////////////////////
+
+            ////////////////////////
             SizedBox(
               height: getHeightInPercent(context, 3),
             ),
-
             GetBuilder<PatientController>(builder: (_) {
               return AuthNavButtonWidget(
                   isColoredLogin: patientController.isStopped,
@@ -86,23 +87,23 @@ class EditPatientPage extends StatelessWidget {
 
             ////////////////////////
             SizedBox(
-              height: getHeightInPercent(context, 8),
+              height: getHeightInPercent(context, 10),
             ),
+            ///////////////////////
             ///////////////////////
             ButtonWidget(
                 onTap: () async {
                   if (formKey.currentState!.validate()) {
-                    await patientController.editPatientData(
+                    await patientController.addPatien(
                         token: token,
                         name: nameKey.text,
                         roomPhoto:
                             'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-VDqpHPWlJz7VozqwRgkkJYXmQnj4F0Ev7w&usqp=CAU',
-                        id: Get.arguments[0],
                         isStopped: patientController.isStopped);
                   }
                 },
                 text: TextWidget(
-                    text: 'Edit Patient',
+                    text: 'Add Patient',
                     color: AppColors.white,
                     fontSize: 15,
                     fontWeight: FontWeight.bold,
@@ -110,12 +111,6 @@ class EditPatientPage extends StatelessWidget {
                     maxline: 1),
                 width: double.infinity,
                 height: 40),
-
-            ////////////////////////
-            SizedBox(
-              height: getHeightInPercent(context, 5),
-            ),
-            ///////////////////////
           ],
         ));
   }

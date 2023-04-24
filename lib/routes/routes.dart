@@ -1,14 +1,20 @@
 import 'package:e_nurse_jobs/view/screens/auth_screens/signup_screen.dart';
+import 'package:e_nurse_jobs/view/screens/home_page_screens/caring_type_pages/caring_type_page.dart';
+import 'package:e_nurse_jobs/view/screens/home_page_screens/caring_type_pages/edit_caring_type.dart';
 import 'package:e_nurse_jobs/view/screens/home_page_screens/home_page.dart';
 import 'package:e_nurse_jobs/view/screens/home_page_screens/nurse_pages/add_nurse.dart';
 import 'package:e_nurse_jobs/view/screens/home_page_screens/nurse_pages/details_nurse.dart';
 import 'package:e_nurse_jobs/view/screens/home_page_screens/nurse_pages/edit_nurse.dart';
 import 'package:e_nurse_jobs/view/screens/home_page_screens/nurse_pages/nurse_page.dart';
 import 'package:e_nurse_jobs/view/screens/home_page_screens/patient_pages/details_patient.dart';
+import 'package:e_nurse_jobs/view/screens/home_page_screens/patient_pages/edit_patient.dart';
 import 'package:e_nurse_jobs/view/screens/home_page_screens/patient_pages/patient_page.dart';
 import 'package:get/route_manager.dart';
 
 import '../view/screens/auth_screens/login_screen.dart';
+import '../view/screens/home_page_screens/caring_type_pages/add_caring_type.dart';
+import '../view/screens/home_page_screens/caring_type_pages/details_caring_type.dart';
+import '../view/screens/home_page_screens/patient_pages/add_patient.dart';
 import '../view/screens/welcome_screen.dart';
 
 class Routes {
@@ -16,12 +22,21 @@ class Routes {
   static const loginScreen = '/loginScreen';
   static const registerScreen = '/registerScreen';
   static const homeScreen = '/homeScreen';
+  ///////
   static const nursePage = '/nursePage';
   static const addNursePage = '/addNursePage';
   static const editNursePage = '/editNursePage';
   static const detailsNursePage = '/detailsNursePage';
+  /////
   static const patientPage = '/patientPage';
   static const detailsPatientPage = '/detailsPatientPage';
+  static const editPatientPage = '/editPatientPage';
+  static const addPatientPage = '/addPatientPage';
+  /////
+  static const caringTypePage = '/caringTypePage';
+  static const detailsCaringTypePage = '/detailsCaringTypePage';
+  static const editCaringTypePage = '/editCaringTypePage';
+  static const addCaringTypePage = '/addCaringTypePage';
 }
 
 class AppRoutes {
@@ -93,6 +108,52 @@ class AppRoutes {
     GetPage(
       name: Routes.detailsPatientPage,
       page: () => DetailsPatientPage(),
+      transition: Transition.fade,
+      transitionDuration: const Duration(milliseconds: 400),
+    ),
+    ////
+    ///  // ////////addPatientPage
+    GetPage(
+      name: Routes.editPatientPage,
+      page: () => EditPatientPage(),
+      transition: Transition.fade,
+      transitionDuration: const Duration(milliseconds: 400),
+    ),
+    ////
+    GetPage(
+      name: Routes.addPatientPage,
+      page: () => AddPatientPage(),
+      transition: Transition.fade,
+      transitionDuration: const Duration(milliseconds: 400),
+    ),
+    ////
+    ////////////////////////caring type//////////////////////////////////////////
+    // ////////
+    GetPage(
+      name: Routes.caringTypePage,
+      page: () => CaringTypePage(),
+      transition: Transition.fade,
+      transitionDuration: const Duration(milliseconds: 400),
+    ),
+    // ////////
+    GetPage(
+      name: Routes.detailsCaringTypePage,
+      page: () => DetailsCaringTypePage(),
+      transition: Transition.fade,
+      transitionDuration: const Duration(milliseconds: 400),
+    ),
+    // ////
+    // ///  // ////////addPatientPage
+    GetPage(
+      name: Routes.editCaringTypePage,
+      page: () => EditCaringTypePage(),
+      transition: Transition.fade,
+      transitionDuration: const Duration(milliseconds: 400),
+    ),
+    // ////
+    GetPage(
+      name: Routes.addCaringTypePage,
+      page: () => AddCaringTypePage(),
       transition: Transition.fade,
       transitionDuration: const Duration(milliseconds: 400),
     ),

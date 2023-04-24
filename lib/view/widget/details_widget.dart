@@ -39,6 +39,7 @@ class DetailsWidget extends StatelessWidget {
         Expanded(
           child: Container(
             height: height,
+            padding: const EdgeInsets.all(5),
             decoration:
                 BoxDecoration(border: Border.all(color: AppColors.secondary)),
             child: Center(
@@ -53,7 +54,8 @@ class DetailsWidget extends StatelessWidget {
                       fontSize: 13,
                       fontWeight: FontWeight.bold,
                       textAlign: TextAlign.start,
-                      maxline: 2),
+                      overflow: TextOverflow.ellipsis,
+                      maxline: 6),
             ),
           ),
         ),

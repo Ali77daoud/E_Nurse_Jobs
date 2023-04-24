@@ -68,7 +68,7 @@ class PatientPage extends StatelessWidget {
     return InkWell(
       onTap: () {
         Get.toNamed(
-          Routes.addNursePage,
+          Routes.addPatientPage,
         );
       },
       child: Container(
@@ -185,9 +185,9 @@ class PatientPage extends StatelessWidget {
                             )),
                         IconButton(
                             onPressed: () {
-                              // Get.toNamed(Routes.editNursePage, arguments: [
-                              //   nurseController.nurseData!.obj[index].id
-                              // ]);
+                              Get.toNamed(Routes.editPatientPage, arguments: [
+                                patientController.patientData!.obj[index].id
+                              ]);
                             },
                             icon: const Icon(
                               Icons.edit,

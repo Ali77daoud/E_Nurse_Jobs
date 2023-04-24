@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'package:e_nurse_jobs/model/patient_model/add_patient.dart';
 import 'package:http/http.dart' as http;
+import '../../model/patient_model/edit_patient_model.dart';
 import '../../model/patient_model/get_patient_model.dart';
 import '../../utils.dart/const_and_func.dart';
 
@@ -55,65 +57,59 @@ class PatientApi {
   }
 
   // ///////////////
-  // static Future<void> editNurseApi(
-  //     {required String token,
-  //     required String name,
-  //     required String phone,
-  //     required int id,
-  //     required bool gender,
-  //     required bool isResigned}) async {
-  //   final client = http.Client();
-  //   final uri = Uri.parse('$baseUrl/Nurses/Edit/$id');
-  //   var response = await client.post(
-  //     uri,
-  //     body: jsonEncode(EditNurseModel(
-  //             id: id,
-  //             name: name,
-  //             phone: phone,
-  //             gender: gender,
-  //             isResigned: isResigned)
-  //         .toJson()),
-  //     headers: {
-  //       'Content-type': 'application/json',
-  //       'Accept': 'application/json',
-  //       'Authorization': 'Bearer $token'
-  //     },
-  //   );
+  static Future<void> editPatientApi(
+      {required String token,
+      required int id,
+      required String name,
+      required String roomPhoto,
+      required bool isStopped}) async {
+    final client = http.Client();
+    final uri = Uri.parse('$baseUrl/Patient/Edit/$id');
+    var response = await client.post(
+      uri,
+      body: jsonEncode(EditPatientModel(
+              id: id, name: name, roomPhoto: roomPhoto, isStoped: isStopped)
+          .toJson()),
+      headers: {
+        'Content-type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token'
+      },
+    );
 
-  //   if (response.statusCode >= 200 && response.statusCode < 300) {
-  //     print('editNurse success');
-  //   } else {
-  //     print('editNurse field');
-  //     throw Exception('Edit Nurse Data Failed');
-  //   }
-  // }
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      print('edit Patien success');
+    } else {
+      print('edit Patien field');
+      throw Exception('Edit Patien Data Failed');
+    }
+  }
 
   // ///////////////
-  // static Future<void> addNurseApi(
-  //     {required String token,
-  //     required String name,
-  //     required String phone,
-  //     required bool gender,
-  //     required bool isResigned}) async {
-  //   final client = http.Client();
-  //   final uri = Uri.parse('$baseUrl/Nurses/Create');
-  //   var response = await client.post(
-  //     uri,
-  //     body: jsonEncode(AddNurseModel(
-  //             name: name, phone: phone, gender: gender, isResigned: isResigned)
-  //         .toJson()),
-  //     headers: {
-  //       'Content-type': 'application/json',
-  //       'Accept': 'application/json',
-  //       'Authorization': 'Bearer $token'
-  //     },
-  //   );
+  static Future<void> addPatientApi(
+      {required String token,
+      required String name,
+      required String roomPhoto,
+      required bool isStopped}) async {
+    final client = http.Client();
+    final uri = Uri.parse('$baseUrl/Patient/Create');
+    var response = await client.post(
+      uri,
+      body: jsonEncode(
+          AddPatientModel(name: name, isStoped: isStopped, roomPhoto: roomPhoto)
+              .toJson()),
+      headers: {
+        'Content-type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token'
+      },
+    );
 
-  //   if (response.statusCode >= 200 && response.statusCode < 300) {
-  //     print('Add Nurse success');
-  //   } else {
-  //     print('Add Nurse field');
-  //     throw Exception('Add Nurse Failed');
-  //   }
-  // }
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      print('Add Patien success');
+    } else {
+      print('Add Patien field');
+      throw Exception('Add Patien Failed');
+    }
+  }
 }

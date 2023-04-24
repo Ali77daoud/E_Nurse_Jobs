@@ -1,22 +1,15 @@
+import 'package:e_nurse_jobs/services/network/caring_type_network.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
-import '../../model/patient_model/get_patient_model.dart';
+import '../../model/caring_type_models.dart/get_caring_type_model.dart';
 import '../../routes/routes.dart';
-import '../../services/network/patient_network.dart';
 import '../../utils.dart/const_and_func.dart';
 import '../../utils.dart/snack_bar_notifi.dart';
 
-class PatientController extends GetxController {
+class CaringTypeController extends GetxController {
   bool isNoInternetConnection = false;
   bool isCircleShown = false;
-  bool isStopped = true;
-
-  //////////////////////////////
-  void changeisStopped(bool isStopped) {
-    this.isStopped = isStopped;
-    update();
-  }
 
   ///////////////////////////
   void showCircleIndicator() {
@@ -44,56 +37,21 @@ class PatientController extends GetxController {
   /////////////////////////////////////////////////////
   @override
   void onInit() async {
-    // TODO: implement onInit
     super.onInit();
-    await getPatientData(token: token);
+    await getCaringTypeData(token: token);
   }
 
   //////////////////////////////////////////////////////
-  GetPatientModel? patientData;
+  GetCaringTypeModel? caringTypeData;
 
-  Future<void> getPatientData({required String token}) async {
+  Future<void> getCaringTypeData({required String token}) async {
     showCircleIndicator();
     var result = await InternetConnectionChecker().hasConnection;
     if (result) {
       print('connection');
       try {
-        await PatientApi.getPatientApi(token: token).then((value) async {
-          patientData = value;
-          hideCircleIndicator();
-          hideNoInternetPage();
-          update();
-        });
-      } catch (e) {
-        String title = e.toString().replaceAll('Exception: ', ' ');
-        print(title);
-        hideCircleIndicator();
-        showNoInternetPage();
-        snackBarNotifi(
-            title: title, color: const Color.fromARGB(255, 158, 15, 5));
-      }
-    } else {
-      print('no connection');
-      hideCircleIndicator();
-      showNoInternetPage();
-    }
-    update();
-  }
-
-  //////////////////////////////////////////////////////////////////////////////
-  //////////////////////////////////////////////////////
-  GetPatienDataModel? patientDetailsData;
-
-  Future<void> getDetailsPatientData(
-      {required String token, required int id}) async {
-    showCircleIndicator();
-    var result = await InternetConnectionChecker().hasConnection;
-    if (result) {
-      print('connection');
-      try {
-        await PatientApi.getPatienDetailsApi(token: token, id: id)
-            .then((value) async {
-          patientDetailsData = value;
+        await CaringTypeApi.getCaringTypeApi(token: token).then((value) async {
+          caringTypeData = value;
           hideCircleIndicator();
           hideNoInternetPage();
           update();
@@ -115,30 +73,60 @@ class PatientController extends GetxController {
   }
 
   // //////////////////////////////////////////////////////////////////////////////
-  Future<void> editPatientData(
-      {required String token,
-      required String name,
-      required String roomPhoto,
-      required int id,
-      required bool isStopped}) async {
+  // //////////////////////////////////////////////////////
+  GetCaringTypeDataModel? caringTypeDetailsData;
+
+  Future<void> getDetailsCaringTypeData(
+      {required String token, required int id}) async {
+    showCircleIndicator();
+    var result = await InternetConnectionChecker().hasConnection;
+    if (result) {
+      print('connection');
+      try {
+        await CaringTypeApi.getCaringTypeDetailsApi(token: token, id: id)
+            .then((value) async {
+          caringTypeDetailsData = value;
+          hideCircleIndicator();
+          hideNoInternetPage();
+          update();
+        });
+      } catch (e) {
+        String title = e.toString().replaceAll('Exception: ', ' ');
+        print(title);
+        hideCircleIndicator();
+        showNoInternetPage();
+        snackBarNotifi(
+            title: title, color: const Color.fromARGB(255, 158, 15, 5));
+      }
+    } else {
+      print('no connection');
+      hideCircleIndicator();
+      showNoInternetPage();
+    }
+    update();
+  }
+
+  // //////////////////////////////////////////////////////////////////////////////
+  Future<void> editCaringTypeData({
+    required String token,
+    required String name,
+    required String description,
+    required int id,
+  }) async {
     showCircleIndicator();
     var result = await InternetConnectionChecker().hasConnection;
     if (result) {
       try {
-        await PatientApi.editPatientApi(
-                token: token,
-                name: name,
-                roomPhoto: roomPhoto,
-                id: id,
-                isStopped: isStopped)
+        await CaringTypeApi.editCaringTypeApi(
+                token: token, name: name, description: description, id: id)
             .then((value) async {
           hideCircleIndicator();
           snackBarNotifi(
-            title: 'Edit Patient Data Success',
+            title: 'Edit CaringType Data Success',
             color: Colors.green,
           );
-          Get.offNamed(Routes.patientPage);
-          await getPatientData(token: token);
+          Get.offNamed(Routes.caringTypePage);
+          await getCaringTypeData(token: token);
           update();
         });
       } catch (e) {
@@ -159,29 +147,25 @@ class PatientController extends GetxController {
   }
 
   // //////////////////////////////////////////////////////////////////////////////
-  Future<void> addPatien({
+  Future<void> addCaringType({
     required String token,
     required String name,
-    required String roomPhoto,
-    required bool isStopped,
+    required String description,
   }) async {
     showCircleIndicator();
     var result = await InternetConnectionChecker().hasConnection;
     if (result) {
       try {
-        await PatientApi.addPatientApi(
-                token: token,
-                name: name,
-                isStopped: isStopped,
-                roomPhoto: roomPhoto)
+        await CaringTypeApi.addCaringTypeApi(
+                token: token, name: name, description: description)
             .then((value) async {
           hideCircleIndicator();
           snackBarNotifi(
-            title: 'Add Patient Success',
+            title: 'Add CaringType Success',
             color: Colors.green,
           );
-          Get.offNamed(Routes.patientPage);
-          await getPatientData(token: token);
+          Get.offNamed(Routes.caringTypePage);
+          await getCaringTypeData(token: token);
           update();
         });
       } catch (e) {

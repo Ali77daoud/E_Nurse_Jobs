@@ -75,6 +75,9 @@ class HomePageScreen extends StatelessWidget {
         if (index == 1) {
           Get.toNamed(Routes.patientPage);
         }
+        if (index == 3) {
+          Get.toNamed(Routes.caringTypePage);
+        }
       },
       child: Container(
         padding: const EdgeInsets.only(top: 5, bottom: 5),

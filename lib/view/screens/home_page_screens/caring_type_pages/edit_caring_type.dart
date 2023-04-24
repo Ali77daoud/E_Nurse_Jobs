@@ -1,7 +1,6 @@
-import 'package:e_nurse_jobs/view/widget/auth_nav_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../../logic/controllers/patient_controller.dart';
+import '../../../../logic/controllers/caring_type_controller.dart';
 import '../../../../utils.dart/app_colors.dart';
 import '../../../../utils.dart/const_and_func.dart';
 import '../../../widget/auth_text_field.dart';
@@ -9,15 +8,17 @@ import '../../../widget/button_widget.dart';
 import '../../../widget/circle_indecator_widget.dart';
 import '../../../widget/text_widget.dart';
 
-class EditPatientPage extends StatelessWidget {
-  EditPatientPage({super.key});
+class EditCaringTypePage extends StatelessWidget {
+  EditCaringTypePage({super.key});
   final formKey = GlobalKey<FormState>();
   final TextEditingController nameKey = TextEditingController();
-  final PatientController patientController = Get.find<PatientController>();
+  final TextEditingController descriptionKey = TextEditingController();
+  final CaringTypeController caringTypeController =
+      Get.find<CaringTypeController>();
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: GetBuilder<PatientController>(builder: (_) {
+    return Scaffold(body: GetBuilder<CaringTypeController>(builder: (_) {
       return Stack(
         children: [
           Padding(
@@ -29,7 +30,7 @@ class EditPatientPage extends StatelessWidget {
                       buildHeader(),
                       ////////////////////////
                       SizedBox(
-                        height: getHeightInPercent(context, 15),
+                        height: getHeightInPercent(context, 10),
                       ),
                       ///////////////////////
                       buildBody(context)
@@ -37,7 +38,7 @@ class EditPatientPage extends StatelessWidget {
               )),
           //////////////////
           ///////////
-          patientController.isCircleShown
+          caringTypeController.isCircleShown
               ? const CircleIndicatorWidget()
               : Container()
         ],
@@ -66,43 +67,43 @@ class EditPatientPage extends StatelessWidget {
                 prefixIcon: const Icon(Icons.person_outline)),
             ////////////////////////
             SizedBox(
-              height: getHeightInPercent(context, 3),
+              height: getHeightInPercent(context, 4),
             ),
-
-            GetBuilder<PatientController>(builder: (_) {
-              return AuthNavButtonWidget(
-                  isColoredLogin: patientController.isStopped,
-                  isColoredSignup: !patientController.isStopped,
-                  text1: 'Stopped',
-                  text2: 'Not Stopped',
-                  width: getWidthInPercent(context, 100),
-                  onTapLogin: () {
-                    patientController.changeisStopped(true);
-                  },
-                  onTapSignup: () {
-                    patientController.changeisStopped(false);
-                  });
-            }),
+            ///////////////////////
+            AuthTextField(
+                textInputType: TextInputType.number,
+                isPrefix: true,
+                controller: descriptionKey,
+                maxLines: 6,
+                hintText: 'Enter Description',
+                labelText: 'Description',
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return 'Description should not be empty';
+                  }
+                },
+                prefixIcon: const Icon(Icons.description)),
+            ////////////////////////
 
             ////////////////////////
             SizedBox(
-              height: getHeightInPercent(context, 8),
+              height: getHeightInPercent(context, 5),
             ),
+
             ///////////////////////
             ButtonWidget(
                 onTap: () async {
                   if (formKey.currentState!.validate()) {
-                    await patientController.editPatientData(
-                        token: token,
-                        name: nameKey.text,
-                        roomPhoto:
-                            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-VDqpHPWlJz7VozqwRgkkJYXmQnj4F0Ev7w&usqp=CAU',
-                        id: Get.arguments[0],
-                        isStopped: patientController.isStopped);
+                    await caringTypeController.editCaringTypeData(
+                      token: token,
+                      name: nameKey.text,
+                      description: descriptionKey.text,
+                      id: Get.arguments[0],
+                    );
                   }
                 },
                 text: TextWidget(
-                    text: 'Edit Patient',
+                    text: 'Edit CaringType',
                     color: AppColors.white,
                     fontSize: 15,
                     fontWeight: FontWeight.bold,
@@ -122,12 +123,12 @@ class EditPatientPage extends StatelessWidget {
 
   Widget buildHeader() {
     return Container(
-      width: 200,
-      height: 200,
+      width: 180,
+      height: 180,
       decoration: const BoxDecoration(
           image: DecorationImage(
               image: AssetImage(
-                'assets/images/patient.png',
+                'assets/images/caring_type.png',
               ),
               fit: BoxFit.contain)),
     );
