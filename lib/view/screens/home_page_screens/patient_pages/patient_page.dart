@@ -58,7 +58,7 @@ class PatientPage extends StatelessWidget {
       decoration: const BoxDecoration(
           image: DecorationImage(
               image: AssetImage(
-                'assets/images/patient.png',
+                'assets/images/patient.jpg',
               ),
               fit: BoxFit.contain)),
     );

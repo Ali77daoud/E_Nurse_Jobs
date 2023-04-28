@@ -12,6 +12,10 @@ import 'package:e_nurse_jobs/view/screens/home_page_screens/patient_pages/patien
 import 'package:get/route_manager.dart';
 
 import '../view/screens/auth_screens/login_screen.dart';
+import '../view/screens/home_page_screens/caring_pages/add_caring.dart';
+import '../view/screens/home_page_screens/caring_pages/caring_page.dart';
+import '../view/screens/home_page_screens/caring_pages/details_caring.dart';
+import '../view/screens/home_page_screens/caring_pages/edit_caring.dart';
 import '../view/screens/home_page_screens/caring_type_pages/add_caring_type.dart';
 import '../view/screens/home_page_screens/caring_type_pages/details_caring_type.dart';
 import '../view/screens/home_page_screens/patient_pages/add_patient.dart';
@@ -37,6 +41,11 @@ class Routes {
   static const detailsCaringTypePage = '/detailsCaringTypePage';
   static const editCaringTypePage = '/editCaringTypePage';
   static const addCaringTypePage = '/addCaringTypePage';
+  /////
+  static const caringPage = '/caringPage';
+  static const detailsCaringPage = '/detailsCaringPage';
+  static const editCaringPage = '/editCaringPage';
+  static const addCaringPage = '/addCaringPage';
 }
 
 class AppRoutes {
@@ -143,7 +152,7 @@ class AppRoutes {
       transitionDuration: const Duration(milliseconds: 400),
     ),
     // ////
-    // ///  // ////////addPatientPage
+    // ///  //
     GetPage(
       name: Routes.editCaringTypePage,
       page: () => EditCaringTypePage(),
@@ -154,6 +163,38 @@ class AppRoutes {
     GetPage(
       name: Routes.addCaringTypePage,
       page: () => AddCaringTypePage(),
+      transition: Transition.fade,
+      transitionDuration: const Duration(milliseconds: 400),
+    ),
+    ////
+    ////
+    ////////////////////////caring //////////////////////////////////////////
+    // ////////
+    GetPage(
+      name: Routes.caringPage,
+      page: () => CaringPage(),
+      transition: Transition.fade,
+      transitionDuration: const Duration(milliseconds: 400),
+    ),
+    // ////////
+    GetPage(
+      name: Routes.detailsCaringPage,
+      page: () => DetailsCaringPage(),
+      transition: Transition.fade,
+      transitionDuration: const Duration(milliseconds: 400),
+    ),
+    // // ////
+    // // ///  //
+    GetPage(
+      name: Routes.editCaringPage,
+      page: () => EditCaringPage(),
+      transition: Transition.fade,
+      transitionDuration: const Duration(milliseconds: 400),
+    ),
+    // // ////
+    GetPage(
+      name: Routes.addCaringPage,
+      page: () => AddCaringPage(),
       transition: Transition.fade,
       transitionDuration: const Duration(milliseconds: 400),
     ),

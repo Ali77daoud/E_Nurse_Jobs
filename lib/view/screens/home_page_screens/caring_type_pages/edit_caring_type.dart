@@ -128,7 +128,7 @@ class EditCaringTypePage extends StatelessWidget {
       decoration: const BoxDecoration(
           image: DecorationImage(
               image: AssetImage(
-                'assets/images/caring_type.png',
+                'assets/images/caring_type.jpg',
               ),
               fit: BoxFit.contain)),
     );

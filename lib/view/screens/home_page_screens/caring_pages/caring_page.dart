@@ -6,26 +6,24 @@ import 'package:e_nurse_jobs/view/widget/no_connection_widget.dart';
 import 'package:e_nurse_jobs/view/widget/safe_area_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import '../../../../logic/controllers/caring_type_controller.dart';
+import '../../../../logic/controllers/caring_controller.dart';
 import '../../../widget/text_widget.dart';
 
-class CaringTypePage extends StatelessWidget {
-  CaringTypePage({super.key});
-  final CaringTypeController caringTypeController =
-      Get.find<CaringTypeController>();
+class CaringPage extends StatelessWidget {
+  CaringPage({super.key});
+  final CaringController caringController = Get.find<CaringController>();
 
   @override
   Widget build(BuildContext context) {
     return SafeAreaWidget(child: Scaffold(
-      body: GetBuilder<CaringTypeController>(builder: (_) {
-        return caringTypeController.isCircleShown
+      body: GetBuilder<CaringController>(builder: (_) {
+        return caringController.isCircleShown
             ? const CircleIndicatorWidget(
                 isWhite: true,
               )
-            : caringTypeController.isNoInternetConnection
+            : caringController.isNoInternetConnection
                 ? NoConnectionWidget(onTap: () async {
-                    await caringTypeController.getCaringTypeData(token: token);
+                    await caringController.getCaringData(token: token);
                   })
                 : Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -38,7 +36,7 @@ class CaringTypePage extends StatelessWidget {
                           height: getHeightInPercent(context, 5),
                         ),
                         ////////////////
-                        buildAddButton(context),
+                        buildAddButton(context, caringController),
                         ////////////////
                         SizedBox(
                           height: getHeightInPercent(context, 3),
@@ -59,18 +57,41 @@ class CaringTypePage extends StatelessWidget {
       decoration: const BoxDecoration(
           image: DecorationImage(
               image: AssetImage(
-                'assets/images/caring_type.jpg',
+                'assets/images/logo.png',
               ),
               fit: BoxFit.contain)),
     );
   }
 
-  Widget buildAddButton(BuildContext context) {
+  Widget buildAddButton(
+      BuildContext context, CaringController caringController) {
     return InkWell(
-      onTap: () {
+      onTap: () async {
         Get.toNamed(
-          Routes.addCaringTypePage,
+          Routes.addCaringPage,
         );
+        await caringController.getNurseData(token: token).then((value) async {
+          caringController.nurseNames.addAll(caringController.nurseData!.obj
+              .map((e) => '${e.id} ${e.name}')
+              .toList());
+          await caringController
+              .getPatientData(token: token)
+              .then((value) async {
+            caringController.patientNames.addAll(caringController
+                .patientData!.obj
+                .map((e) => '${e.id} ${e.name}')
+                .toList());
+
+            await caringController
+                .getCaringTypeData(token: token)
+                .then((value) {
+              caringController.caringTypeNames.addAll(caringController
+                  .caringTypeData!.obj
+                  .map((e) => '${e.id} ${e.name}')
+                  .toList());
+            });
+          });
+        });
       },
       child: Container(
         color: AppColors.primaryDark,
@@ -103,13 +124,13 @@ class CaringTypePage extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 10),
         child: ListView.builder(
-          itemCount: caringTypeController.caringTypeData!.obj.length,
+          itemCount: caringController.caringData!.length,
           itemBuilder: (context, index) {
             return Padding(
               padding: const EdgeInsets.symmetric(vertical: 7),
               child: Container(
                 width: double.infinity,
-                height: 110,
+                height: 90,
                 decoration: const BoxDecoration(
                   color: AppColors.white,
                   boxShadow: [
@@ -146,8 +167,8 @@ class CaringTypePage extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             TextWidget(
-                                text: caringTypeController
-                                    .caringTypeData!.obj[index].name,
+                                text: caringController
+                                    .caringData![index].nurses.name,
                                 color: AppColors.primaryDark,
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,
@@ -162,8 +183,8 @@ class CaringTypePage extends StatelessWidget {
                             ////////////////
                             Expanded(
                               child: TextWidget(
-                                  text: caringTypeController
-                                      .caringTypeData!.obj[index].description,
+                                  text: caringController
+                                      .caringData![index].description,
                                   color: AppColors.greyColor,
                                   fontSize: 12,
                                   minFontSize: 10,
@@ -192,12 +213,36 @@ class CaringTypePage extends StatelessWidget {
                                 size: 22,
                               )),
                           IconButton(
-                              onPressed: () {
-                                Get.toNamed(Routes.editCaringTypePage,
-                                    arguments: [
-                                      caringTypeController
-                                          .caringTypeData!.obj[index].id
-                                    ]);
+                              onPressed: () async {
+                                Get.toNamed(Routes.editCaringPage, arguments: [
+                                  caringController.caringData![index].id
+                                ]);
+                                /////////
+                                await caringController
+                                    .getNurseData(token: token)
+                                    .then((value) async {
+                                  caringController.nurseNames.addAll(
+                                      caringController.nurseData!.obj
+                                          .map((e) => '${e.id} ${e.name}')
+                                          .toList());
+                                  await caringController
+                                      .getPatientData(token: token)
+                                      .then((value) async {
+                                    caringController.patientNames.addAll(
+                                        caringController.patientData!.obj
+                                            .map((e) => '${e.id} ${e.name}')
+                                            .toList());
+
+                                    await caringController
+                                        .getCaringTypeData(token: token)
+                                        .then((value) {
+                                      caringController.caringTypeNames.addAll(
+                                          caringController.caringTypeData!.obj
+                                              .map((e) => '${e.id} ${e.name}')
+                                              .toList());
+                                    });
+                                  });
+                                });
                               },
                               icon: const Icon(
                                 Icons.edit,
@@ -212,11 +257,10 @@ class CaringTypePage extends StatelessWidget {
                       flex: 2,
                       child: InkWell(
                         onTap: () async {
-                          Get.toNamed(Routes.detailsCaringTypePage);
-                          await caringTypeController.getDetailsCaringTypeData(
+                          Get.toNamed(Routes.detailsCaringPage);
+                          await caringController.getDetailsCaringData(
                               token: token,
-                              id: caringTypeController
-                                  .caringTypeData!.obj[index].id);
+                              id: caringController.caringData![index].id);
                         },
                         child: Container(
                           height: getHeightInPercent(context, 100),

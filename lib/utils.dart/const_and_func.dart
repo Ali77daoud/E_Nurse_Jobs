@@ -11,9 +11,9 @@ const String baseUrl = 'http://apiamw-001-site1.dtempurl.com/api';
 
 const List<String> homePageImg = [
   'assets/images/nurse.png',
-  'assets/images/patient.png',
+  'assets/images/patient.jpg',
   'assets/images/logo.png',
-  'assets/images/caring_type.png',
+  'assets/images/caring_type.jpg',
 ];
 
 /////

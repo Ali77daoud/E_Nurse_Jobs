@@ -75,6 +75,9 @@ class HomePageScreen extends StatelessWidget {
         if (index == 1) {
           Get.toNamed(Routes.patientPage);
         }
+        if (index == 2) {
+          Get.toNamed(Routes.caringPage);
+        }
         if (index == 3) {
           Get.toNamed(Routes.caringTypePage);
         }

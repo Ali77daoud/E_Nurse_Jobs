@@ -19,6 +19,8 @@ dependencies:
   auto_size_text:
   http:
   internet_connection_checker:
+  flutter_datetime_picker:
+  intl: ^0.18.1
 
 
   cupertino_icons: ^1.0.2
